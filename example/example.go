@@ -4,24 +4,24 @@ import (
 	"fmt"
 	"log"
 
-	routeros "github.com/aoida/router-os"
-	"github.com/aoida/router-os/builder"
-	"github.com/aoida/router-os/builder/entity"
+	routeros "github.com/aidapedia/airouteros"
+	ipBuilder "github.com/aidapedia/airouteros/builder/ip"
+	"github.com/aidapedia/airouteros/model"
 )
 
 func main() {
-	routerBuilder := routeros.NewRouterOSBuilder("192.168.1.1:8728", "", "")
+	routerBuilder := routeros.NewRouterOS("127.0.0.1:8728", "", "")
 	err := routerBuilder.Connect()
 	if err != nil {
 		log.Fatal(err)
 	}
 
-	ip := builder.NewIPBuilder(routerBuilder)
-	hotspot := builder.NewIPHotspotBuilder(ip)
-	active := builder.NewIPHotspotActiveBuilder(hotspot)
+	ip := ipBuilder.NewIPBuilder(routerBuilder)
+	hotspot := ipBuilder.NewIPHotspotBuilder(ip)
+	active := ipBuilder.NewIPHotspotActiveBuilder(hotspot)
 
 	// Example of using Print
-	hotspotRes, err := hotspot.Print(entity.PrintRequest{})
+	hotspotRes, err := hotspot.Print(model.PrintRequest{})
 	if err != nil {
 		log.Fatal(err)
 	}
@@ -30,12 +30,12 @@ func main() {
 	}
 
 	// Example of using Print
-	activeRes, err := active.Print(entity.PrintRequest{
-		Where: []entity.Where{
+	activeRes, err := active.Print(model.PrintRequest{
+		Where: []model.Where{
 			{
 				Field:    "address",
 				Value:    "10.10.10.53",
-				Operator: entity.OperatorEqual,
+				Operator: model.OperatorEqual,
 			},
 		},
 	})

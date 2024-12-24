@@ -1,8 +1,8 @@
-package builder
+package ip
 
 import (
-	routeros "github.com/aoida/router-os"
-	"github.com/aoida/router-os/builder/entity"
+	routeros "github.com/aidapedia/airouteros"
+	"github.com/aidapedia/airouteros/model"
 )
 
 type IPHotspotBuilder struct {
@@ -20,19 +20,19 @@ func (b *IPHotspotBuilder) GetQuery() string {
 	return b.parent.GetQuery() + `hotspot/`
 }
 
-func (b *IPHotspotBuilder) Print(queries entity.PrintRequest) ([]entity.Hotspot, error) {
-	var results []entity.Hotspot
-	reply, err := b.parent.GetClient().Run(queries.BuildQuery(b.GetQuery() + `print`)...)
+func (b *IPHotspotBuilder) Print(queries model.PrintRequest) ([]model.Hotspot, error) {
+	var results []model.Hotspot
+	reply, err := b.parent.GetClient().Call(queries.BuildQuery(b.GetQuery() + `print`)...)
 	if err != nil {
 		return results, err
 	}
 	for _, re := range reply.Re {
-		result := entity.Hotspot(re.Map)
+		result := model.Hotspot(re.Map)
 		results = append(results, result)
 	}
 	return results, nil
 }
 
-func (b *IPHotspotBuilder) GetClient() *routeros.RouterOSBuilder {
+func (b *IPHotspotBuilder) GetClient() *routeros.RouterOS {
 	return b.parent.GetClient()
 }

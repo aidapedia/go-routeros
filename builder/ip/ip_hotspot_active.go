@@ -1,7 +1,7 @@
-package builder
+package ip
 
 import (
-	"github.com/aoida/router-os/builder/entity"
+	"github.com/aidapedia/airouteros/model"
 )
 
 // List of logged-in HotSpot users
@@ -22,14 +22,14 @@ func (b *IPHotspotActiveBuilder) GetQuery() string {
 	return b.parent.GetQuery() + `active/`
 }
 
-func (b *IPHotspotActiveBuilder) Print(queries entity.PrintRequest) ([]entity.HotspotActive, error) {
-	var results []entity.HotspotActive
-	reply, err := b.parent.GetClient().Run(queries.BuildQuery(b.GetQuery() + `print`)...)
+func (b *IPHotspotActiveBuilder) Print(queries model.PrintRequest) ([]model.HotspotActive, error) {
+	var results []model.HotspotActive
+	reply, err := b.parent.GetClient().Call(queries.BuildQuery(b.GetQuery() + `print`)...)
 	if err != nil {
 		return results, err
 	}
 	for _, re := range reply.Re {
-		result := entity.HotspotActive(re.Map)
+		result := model.HotspotActive(re.Map)
 		results = append(results, result)
 	}
 	return results, nil

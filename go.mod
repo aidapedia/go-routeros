@@ -1,5 +1,5 @@
-module github.com/aoida/router-os
+module github.com/aidapedia/airouteros
 
-go 1.19
+go 1.21.9
 
-require gopkg.in/routeros.v2 v2.0.0-20190905230420-1bbf141cdd91
+require github.com/go-routeros/routeros/v3 v3.0.0 // indirect

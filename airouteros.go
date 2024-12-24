@@ -1,22 +1,22 @@
 package routeros
 
 import (
-	"gopkg.in/routeros.v2"
+	"github.com/go-routeros/routeros/v3"
 )
 
-type RouterOSBuilder struct {
+type RouterOS struct {
 	client *routeros.Client
 	option *Option
 }
 
-func NewRouterOSBuilder(address, username, password string) *RouterOSBuilder {
-	return &RouterOSBuilder{
+func NewRouterOS(address, username, password string) *RouterOS {
+	return &RouterOS{
 		option: NewOption(address, username, password),
 	}
 }
 
 // Connect connects to the router.
-func (r *RouterOSBuilder) Connect() error {
+func (r *RouterOS) Connect() error {
 	var err error
 	if r.option.GetTimeout() > 0 {
 		r.client, err = routeros.DialTimeout(r.option.GetAddress(), r.option.GetUsername(), r.option.GetPassword(), r.option.GetTimeout())
@@ -27,21 +27,21 @@ func (r *RouterOSBuilder) Connect() error {
 }
 
 // Close closes the connection to the router.
-func (r *RouterOSBuilder) Close() {
+func (r *RouterOS) Close() {
 	r.client.Close()
 }
 
 // Close closes the connection to the router.
-func (r *RouterOSBuilder) Async() {
+func (r *RouterOS) Async() {
 	r.client.Async()
 }
 
 // Run runs a sentence on the router.
-func (b *RouterOSBuilder) Run(sentence ...string) (*routeros.Reply, error) {
+func (b *RouterOS) Call(sentence ...string) (*routeros.Reply, error) {
 	return b.client.Run(sentence...)
 }
 
 // GetQuery returns the query of the builder.
-func (b *RouterOSBuilder) GetQuery() string {
+func (b *RouterOS) GetQuery() string {
 	return `/`
 }
