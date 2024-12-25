@@ -10,7 +10,7 @@ import (
 )
 
 func main() {
-	routerBuilder := routeros.NewRouterOS("127.0.0.1:8728", "gungun92", "Mardiana63&*(")
+	routerBuilder := routeros.NewRouterOS("127.0.0.1:8728", "", "")
 	err := routerBuilder.Connect()
 	if err != nil {
 		log.Fatal(err)
@@ -21,22 +21,22 @@ func main() {
 	active := ipBuilder.NewIPHotspotUserProfileBuilder(hotspot)
 
 	// Example of using Print
-	// hotspotRes, err := hotspot.Print(model.PrintRequest{})
-	// if err != nil {
-	// 	log.Fatal(err)
-	// }
-	// for _, a := range hotspotRes {
-	// 	fmt.Println(a)
-	// }
+	hotspotRes, err := hotspot.Print(model.PrintRequest{})
+	if err != nil {
+		log.Fatal(err)
+	}
+	for _, a := range hotspotRes {
+		fmt.Println(a)
+	}
 
 	// Example of using Print
 	activeRes, err := active.Print(model.PrintRequest{
 		Where: []model.Where{
-			// {
-			// 	Field:    "address",
-			// 	Value:    "10.10.10.53",
-			// 	Operator: model.OperatorEqual,
-			// },
+			{
+				Field:    "address",
+				Value:    "10.10.10.53",
+				Operator: model.OperatorEqual,
+			},
 		},
 	})
 	for _, a := range activeRes {
