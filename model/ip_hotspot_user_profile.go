@@ -50,6 +50,10 @@ func (h HotspotUserProfile) ToMap(action types.ActionMap) map[string]string {
 		result := h.mutableToMap()
 		result[".id"] = h.ID
 		return result
+	case types.ActionMapRemove:
+		result := map[string]string{}
+		result[".id"] = h.ID
+		return result
 	case types.ActionMapPrint:
 		fallthrough
 	default:

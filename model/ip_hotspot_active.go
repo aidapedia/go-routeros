@@ -1,140 +1,69 @@
 package model
 
 import (
-	"strconv"
-	"time"
+	"github.com/aidapedia/airouteros/types"
+	"github.com/aidapedia/airouteros/util"
 )
 
-type HotspotActive map[string]string
-
-// GetID returns the id of the hotspot active.
-func (h HotspotActive) GetID() string {
-	result, ok := h[".id"]
-	if !ok {
-		return ""
-	}
-	return result
+// HotspotActive is a representation of a logged-in HotSpot user.
+type HotspotActive struct {
+	ID         string
+	MacAddress string
+	Address    string
+	User       string
+	Server     string
+	Uptime     *types.AiTimeDuration
+	BytesIn    *types.AiInt64
+	BytesOut   *types.AiInt64
+	PacketsIn  *types.AiInt64
+	PacketsOut *types.AiInt64
+	Comment    string
+	IdleTime   *types.AiTimeDuration
 }
 
-// GetMacAddress returns the mac address of the hotspot active.
-func (h HotspotActive) GetMacAddress() string {
-	result, ok := h["mac-address"]
-	if !ok {
-		return ""
+func ParseHotspotActive(m map[string]string) HotspotActive {
+	return HotspotActive{
+		ID:         m[".id"],
+		MacAddress: m["mac-address"],
+		Address:    m["address"],
+		User:       m["user"],
+		Server:     m["server"],
+		Uptime:     util.FindKeyToDuration(m, "uptime"),
+		BytesIn:    util.FindKeyToInt64(m, "bytes-in"),
+		BytesOut:   util.FindKeyToInt64(m, "bytes-out"),
+		PacketsIn:  util.FindKeyToInt64(m, "packets-in"),
+		PacketsOut: util.FindKeyToInt64(m, "packets-out"),
+		Comment:    m["comment"],
+		IdleTime:   util.FindKeyToDuration(m, "idle-time"),
 	}
-	return result
 }
 
-// GetAddress returns the address of the hotspot active.
-func (h HotspotActive) GetAddress() string {
-	result, ok := h["address"]
-	if !ok {
-		return ""
+func (h HotspotActive) ToMap(action types.ActionMap) map[string]string {
+	switch action {
+	case types.ActionMapAdd:
+		return map[string]string{}
+	case types.ActionMapSet:
+		return map[string]string{}
+	case types.ActionMapRemove:
+		result := map[string]string{}
+		result[".id"] = h.ID
+		return result
+	case types.ActionMapPrint:
+		fallthrough
+	default:
+		result := map[string]string{}
+		result[".id"] = h.ID
+		result["mac-address"] = h.MacAddress
+		result["address"] = h.Address
+		result["user"] = h.User
+		result["server"] = h.Server
+		result["uptime"] = h.Uptime.String()
+		result["bytes-in"] = h.BytesIn.String()
+		result["bytes-out"] = h.BytesOut.String()
+		result["packets-in"] = h.PacketsIn.String()
+		result["packets-out"] = h.PacketsOut.String()
+		result["comment"] = h.Comment
+		result["idle-time"] = h.IdleTime.String()
+		return result
 	}
-	return result
-}
-
-// GetUser returns the user of the hotspot active.
-func (h HotspotActive) GetUser() string {
-	result, ok := h["user"]
-	if !ok {
-		return ""
-	}
-	return result
-}
-
-// GetServer returns the server of the hotspot active.
-func (h HotspotActive) GetServer() string {
-	result, ok := h["server"]
-	if !ok {
-		return ""
-	}
-	return result
-}
-
-// GetUptime returns the uptime of the hotspot active.
-func (h HotspotActive) GetUptime() time.Duration {
-	result, ok := h["uptime"]
-	if !ok {
-		return time.Duration(0)
-	}
-	resultDur, err := time.ParseDuration(result)
-	if err != nil {
-		return time.Duration(0)
-	}
-	return resultDur
-}
-
-// GetBytesIn returns the bytes in of the hotspot active.
-func (h HotspotActive) GetBytesIn() int64 {
-	result, ok := h["bytes-in"]
-	if !ok {
-		return 0
-	}
-	resInt64, err := strconv.ParseInt(result, 10, 64)
-	if err != nil {
-		return 0
-	}
-	return resInt64
-}
-
-// GetBytesOut returns the bytes out of the hotspot active.
-func (h HotspotActive) GetBytesOut() int64 {
-	result, ok := h["bytes-out"]
-	if !ok {
-		return 0
-	}
-	resInt64, err := strconv.ParseInt(result, 10, 64)
-	if err != nil {
-		return 0
-	}
-	return resInt64
-}
-
-// GetPacketsIn returns the packets in of the hotspot active.
-func (h HotspotActive) GetPacketsIn() int64 {
-	result, ok := h["packets-in"]
-	if !ok {
-		return 0
-	}
-	resInt64, err := strconv.ParseInt(result, 10, 64)
-	if err != nil {
-		return 0
-	}
-	return resInt64
-}
-
-// GetPacketsOut returns the packets out of the hotspot active.
-func (h HotspotActive) GetPacketsOut() int64 {
-	result, ok := h["packets-out"]
-	if !ok {
-		return 0
-	}
-	resInt64, err := strconv.ParseInt(result, 10, 64)
-	if err != nil {
-		return 0
-	}
-	return resInt64
-}
-
-// GetComment returns the comment of the hotspot active.
-func (h HotspotActive) GetComment() string {
-	result, ok := h["comment"]
-	if !ok {
-		return ""
-	}
-	return result
-}
-
-// GetIdleTime returns the idle time of the hotspot active.
-func (h HotspotActive) GetIdleTime() time.Duration {
-	result, ok := h["idle-time"]
-	if !ok {
-		return time.Duration(0)
-	}
-	resultDur, err := time.ParseDuration(result)
-	if err != nil {
-		return time.Duration(0)
-	}
-	return resultDur
 }

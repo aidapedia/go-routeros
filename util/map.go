@@ -61,6 +61,24 @@ func FindKeyToInt(m map[string]string, key string) *types.AiInt {
 	return &v
 }
 
+// FindKeyToInt64 returns the integer value of the key in the map.
+func FindKeyToInt64(m map[string]string, key string) *types.AiInt64 {
+	var v types.AiInt64
+	result, ok := m[key]
+	if !ok {
+		return &v
+	}
+	if result == types.Unlimited {
+		return nil
+	}
+	i, err := strconv.ParseInt(result, 10, 64)
+	if err != nil {
+		return &v
+	}
+	v = types.AiInt64(i)
+	return &v
+}
+
 // FindKeyToStringSlice returns the string slice value of the key in the map.
 func FindKeyToStringSlice(m map[string]string, key string) []string {
 	result, ok := m[key]

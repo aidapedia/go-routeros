@@ -27,7 +27,7 @@ func (b *IPHotspotUserProfileBuilder) GetQuery() string {
 func (b *IPHotspotUserProfileBuilder) Print(queries model.PrintRequest) ([]model.HotspotUserProfile, error) {
 	var (
 		results []model.HotspotUserProfile
-		path    = b.GetQuery() + `print`
+		path    = b.GetQuery() + string(types.ActionMapPrint)
 	)
 	reply, err := b.parent.GetClient().Call(queries.BuildQuery(path)...)
 	if err != nil {
@@ -42,7 +42,7 @@ func (b *IPHotspotUserProfileBuilder) Print(queries model.PrintRequest) ([]model
 
 func (b *IPHotspotUserProfileBuilder) Add(request model.HotspotUserProfile) error {
 	var (
-		path = b.GetQuery() + `add`
+		path = b.GetQuery() + string(types.ActionMapAdd)
 	)
 	_, err := b.parent.GetClient().Call(util.ToQuery(path, request.ToMap(types.ActionMapAdd))...)
 	if err != nil {
@@ -53,7 +53,7 @@ func (b *IPHotspotUserProfileBuilder) Add(request model.HotspotUserProfile) erro
 
 func (b *IPHotspotUserProfileBuilder) Set(request model.HotspotUserProfile) error {
 	var (
-		path = b.GetQuery() + `set`
+		path = b.GetQuery() + string(types.ActionMapSet)
 	)
 	_, err := b.parent.GetClient().Call(util.ToQuery(path, request.ToMap(types.ActionMapSet))...)
 	if err != nil {
@@ -64,7 +64,7 @@ func (b *IPHotspotUserProfileBuilder) Set(request model.HotspotUserProfile) erro
 
 func (b *IPHotspotUserProfileBuilder) Remove(id string) error {
 	var (
-		path = b.GetQuery() + `remove`
+		path = b.GetQuery() + string(types.ActionMapRemove)
 	)
 	_, err := b.parent.GetClient().Call(path, "=.id="+id)
 	if err != nil {

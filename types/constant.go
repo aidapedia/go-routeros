@@ -3,9 +3,10 @@ package types
 type ActionMap string
 
 const (
-	ActionMapPrint ActionMap = "print"
-	ActionMapSet   ActionMap = "set"
-	ActionMapAdd   ActionMap = "add"
+	ActionMapPrint  ActionMap = "print"
+	ActionMapSet    ActionMap = "set"
+	ActionMapAdd    ActionMap = "add"
+	ActionMapRemove ActionMap = "remove"
 )
 
 const (

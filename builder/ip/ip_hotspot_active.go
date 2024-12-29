@@ -2,6 +2,7 @@ package ip
 
 import (
 	"github.com/aidapedia/airouteros/model"
+	"github.com/aidapedia/airouteros/types"
 )
 
 // List of logged-in HotSpot users
@@ -23,14 +24,28 @@ func (b *IPHotspotActiveBuilder) GetQuery() string {
 }
 
 func (b *IPHotspotActiveBuilder) Print(queries model.PrintRequest) ([]model.HotspotActive, error) {
-	var results []model.HotspotActive
-	reply, err := b.parent.GetClient().Call(queries.BuildQuery(b.GetQuery() + `print`)...)
+	var (
+		results []model.HotspotActive
+		path    = b.GetQuery() + string(types.ActionMapPrint)
+	)
+	reply, err := b.parent.GetClient().Call(queries.BuildQuery(path)...)
 	if err != nil {
 		return results, err
 	}
 	for _, re := range reply.Re {
-		result := model.HotspotActive(re.Map)
+		result := model.ParseHotspotActive(re.Map)
 		results = append(results, result)
 	}
 	return results, nil
+}
+
+func (b *IPHotspotActiveBuilder) Remove(id string) error {
+	var (
+		path = b.GetQuery() + string(types.ActionMapRemove)
+	)
+	_, err := b.parent.GetClient().Call(path, "=.id="+id)
+	if err != nil {
+		return err
+	}
+	return nil
 }
