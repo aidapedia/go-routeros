@@ -6,7 +6,7 @@ type AiInt int
 
 func (a AiInt) String() string {
 	if a == -1 {
-		return "unlimited"
+		return Unlimited
 	}
 	return fmt.Sprintf("%d", a)
 }

@@ -6,16 +6,6 @@ import (
 	"strings"
 )
 
-type TimeUnit string
-
-const (
-	Second TimeUnit = "s"
-	Minute TimeUnit = "m"
-	Hour   TimeUnit = "h"
-	Day    TimeUnit = "d"
-	Week   TimeUnit = "w"
-)
-
 var (
 	duration = map[TimeUnit]int64{
 		Week:   604800,
@@ -31,9 +21,10 @@ var (
 
 type AiTimeDuration int64
 
+// String return with formated same like original routerOS response
 func (a *AiTimeDuration) String() string {
 	if a == nil {
-		return "none"
+		return None
 	}
 	var res string
 	val := int64(*a)
@@ -49,7 +40,7 @@ func (a *AiTimeDuration) String() string {
 }
 
 func ParseDuration(s string) *AiTimeDuration {
-	if s == "none" {
+	if s == None {
 		return nil
 	}
 	var res AiTimeDuration

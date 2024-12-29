@@ -7,6 +7,15 @@ import (
 	"github.com/aidapedia/airouteros/types"
 )
 
+// SetTimeDuration sets the time duration value to the map.
+func SetTimeDuration(result map[string]string, k string, v *types.AiTimeDuration) map[string]string {
+	s := v.String()
+	if s != types.None {
+		result[k] = s
+	}
+	return result
+}
+
 // FindKeyToBool returns the boolean value of the key in the map.
 func FindKeyToBool(m map[string]string, key string) bool {
 	result, ok := m[key]

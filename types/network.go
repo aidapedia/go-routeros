@@ -5,14 +5,6 @@ import (
 	"strings"
 )
 
-type NetworkSpeedUnit string
-
-const (
-	NetworkSpeedUnitKbps NetworkSpeedUnit = "k"
-	NetworkSpeedUnitMbps NetworkSpeedUnit = "M"
-	NetworkSpeedUnitGbps NetworkSpeedUnit = "G"
-)
-
 type NetworkSpeed struct {
 	Amount int
 	Unit   NetworkSpeedUnit

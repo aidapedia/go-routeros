@@ -2,6 +2,8 @@ package ip
 
 import (
 	"github.com/aidapedia/airouteros/model"
+	"github.com/aidapedia/airouteros/types"
+	"github.com/aidapedia/airouteros/util"
 )
 
 // List of logged-in HotSpot users
@@ -23,8 +25,11 @@ func (b *IPHotspotUserProfileBuilder) GetQuery() string {
 }
 
 func (b *IPHotspotUserProfileBuilder) Print(queries model.PrintRequest) ([]model.HotspotUserProfile, error) {
-	var results []model.HotspotUserProfile
-	reply, err := b.parent.GetClient().Call(queries.BuildQuery(b.GetQuery() + `print`)...)
+	var (
+		results []model.HotspotUserProfile
+		path    = b.GetQuery() + `print`
+	)
+	reply, err := b.parent.GetClient().Call(queries.BuildQuery(path)...)
 	if err != nil {
 		return results, err
 	}
@@ -33,4 +38,37 @@ func (b *IPHotspotUserProfileBuilder) Print(queries model.PrintRequest) ([]model
 		results = append(results, result)
 	}
 	return results, nil
+}
+
+func (b *IPHotspotUserProfileBuilder) Add(request model.HotspotUserProfile) error {
+	var (
+		path = b.GetQuery() + `add`
+	)
+	_, err := b.parent.GetClient().Call(util.ToQuery(path, request.ToMap(types.ActionMapAdd))...)
+	if err != nil {
+		return err
+	}
+	return nil
+}
+
+func (b *IPHotspotUserProfileBuilder) Set(request model.HotspotUserProfile) error {
+	var (
+		path = b.GetQuery() + `set`
+	)
+	_, err := b.parent.GetClient().Call(util.ToQuery(path, request.ToMap(types.ActionMapSet))...)
+	if err != nil {
+		return err
+	}
+	return nil
+}
+
+func (b *IPHotspotUserProfileBuilder) Remove(id string) error {
+	var (
+		path = b.GetQuery() + `remove`
+	)
+	_, err := b.parent.GetClient().Call(path, "=.id="+id)
+	if err != nil {
+		return err
+	}
+	return nil
 }

@@ -42,20 +42,47 @@ func ParseHotspotUserProfile(m map[string]string) HotspotUserProfile {
 	}
 }
 
-func (h HotspotUserProfile) ToMap() map[string]string {
-	return map[string]string{
-		".id":                h.ID,
-		"name":               h.Name,
-		"rate-limit":         h.RateLimit.String(),
-		"shared-users":       h.SharedUser.String(),
-		"session-timeout":    h.SessionTimeout.String(),
-		"idle-timeout":       h.IdleTimeout.String(),
-		"keepalive-timeout":  h.KeepAliveTimeout.String(),
-		"status-autorefresh": h.StatusAutorefresh.String(),
-		"address-list":       h.AddressList,
-		"transparent-proxy":  strconv.FormatBool(h.TransparentProxy),
-		"add-mac-cookie":     strconv.FormatBool(h.AddMACCookie),
-		"mac-cookie-timeout": h.MACCookieTimeout.String(),
-		"default":            strconv.FormatBool(h.Default),
+func (h HotspotUserProfile) ToMap(action types.ActionMap) map[string]string {
+	switch action {
+	case types.ActionMapAdd:
+		return h.mutableToMap()
+	case types.ActionMapSet:
+		result := h.mutableToMap()
+		result[".id"] = h.ID
+		return result
+	case types.ActionMapPrint:
+		fallthrough
+	default:
+		result := map[string]string{}
+		result[".id"] = h.ID
+		result["name"] = h.Name
+		result["rate-limit"] = h.RateLimit.String()
+		result["shared-users"] = h.SharedUser.String()
+		result["session-timeout"] = h.SessionTimeout.String()
+		result["idle-timeout"] = h.IdleTimeout.String()
+		result["keepalive-timeout"] = h.KeepAliveTimeout.String()
+		result["status-autorefresh"] = h.StatusAutorefresh.String()
+		result["address-list"] = h.AddressList
+		result["transparent-proxy"] = strconv.FormatBool(h.TransparentProxy)
+		result["add-mac-cookie"] = strconv.FormatBool(h.AddMACCookie)
+		result["mac-cookie-timeout"] = h.MACCookieTimeout.String()
+		result["default"] = strconv.FormatBool(h.Default)
+		return result
 	}
+}
+
+func (h HotspotUserProfile) mutableToMap() map[string]string {
+	result := map[string]string{}
+	result["name"] = h.Name
+	result["rate-limit"] = h.RateLimit.String()
+	result["shared-users"] = h.SharedUser.String()
+	util.SetTimeDuration(result, "session-timeout", h.SessionTimeout)
+	util.SetTimeDuration(result, "idle-timeout", h.IdleTimeout)
+	util.SetTimeDuration(result, "keepalive-timeout", h.KeepAliveTimeout)
+	util.SetTimeDuration(result, "status-autorefresh", h.StatusAutorefresh)
+	result["address-list"] = h.AddressList
+	result["transparent-proxy"] = strconv.FormatBool(h.TransparentProxy)
+	result["add-mac-cookie"] = strconv.FormatBool(h.AddMACCookie)
+	util.SetTimeDuration(result, "mac-cookie-timeout", h.MACCookieTimeout)
+	return result
 }
