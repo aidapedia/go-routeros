@@ -44,19 +44,21 @@ func FindKeyToDuration(m map[string]string, key string) *types.AiTimeDuration {
 }
 
 // FindKeyToInt returns the integer value of the key in the map.
-func FindKeyToInt(m map[string]string, key string) int {
+func FindKeyToInt(m map[string]string, key string) *types.AiInt {
+	var v types.AiInt
 	result, ok := m[key]
 	if !ok {
-		return 0
+		return &v
 	}
-	if result == "unlimited" {
-		return -1
+	if result == types.Unlimited {
+		return nil
 	}
 	i, err := strconv.Atoi(result)
 	if err != nil {
-		return 0
+		return &v
 	}
-	return i
+	v = types.AiInt(i)
+	return &v
 }
 
 // FindKeyToStringSlice returns the string slice value of the key in the map.

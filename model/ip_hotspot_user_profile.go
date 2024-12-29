@@ -12,7 +12,7 @@ type HotspotUserProfile struct {
 	ID                string
 	Name              string
 	RateLimit         *types.NetworkLimit
-	SharedUser        types.AiInt
+	SharedUser        *types.AiInt
 	SessionTimeout    *types.AiTimeDuration
 	IdleTimeout       *types.AiTimeDuration
 	KeepAliveTimeout  *types.AiTimeDuration
@@ -29,7 +29,7 @@ func ParseHotspotUserProfile(m map[string]string) HotspotUserProfile {
 		ID:                m[".id"],
 		Name:              m["name"],
 		RateLimit:         types.ParseNetworkLimit(m["rate-limit"]),
-		SharedUser:        types.AiInt(util.FindKeyToInt(m, "shared-users")),
+		SharedUser:        util.FindKeyToInt(m, "shared-users"),
 		SessionTimeout:    util.FindKeyToDuration(m, "session-timeout"),
 		IdleTimeout:       util.FindKeyToDuration(m, "idle-timeout"),
 		KeepAliveTimeout:  util.FindKeyToDuration(m, "keepalive-timeout"),

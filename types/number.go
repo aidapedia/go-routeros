@@ -4,9 +4,9 @@ import "fmt"
 
 type AiInt int
 
-func (a AiInt) String() string {
-	if a == -1 {
+func (a *AiInt) String() string {
+	if a == nil {
 		return Unlimited
 	}
-	return fmt.Sprintf("%d", a)
+	return fmt.Sprintf("%v", *a)
 }
