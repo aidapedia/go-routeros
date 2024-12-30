@@ -14,8 +14,8 @@ func NewIPBuilder(builder *routeros.RouterOS) *IPBuilder {
 	}
 }
 
-func (b *IPBuilder) GetQuery() string {
-	return b.parent.GetQuery() + `ip/`
+func (b *IPBuilder) GetPath() string {
+	return b.parent.GetPath() + `ip/`
 }
 
 func (b *IPBuilder) GetClient() *routeros.RouterOS {

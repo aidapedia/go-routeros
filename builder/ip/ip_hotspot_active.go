@@ -8,25 +8,28 @@ import (
 // List of logged-in HotSpot users
 // IPHotspotActiveBuilder is a builder for /ip/hotspot/active.
 type IPHotspotActiveBuilder struct {
+	path   string
 	parent *IPHotspotBuilder
 }
 
 // NewIPHotspotActiveBuilder returns a new IPHotspotActiveBuilder.
 func NewIPHotspotActiveBuilder(hotspot *IPHotspotBuilder) *IPHotspotActiveBuilder {
 	return &IPHotspotActiveBuilder{
+		path:   hotspot.GetPath() + `active/`,
 		parent: hotspot,
 	}
 }
 
-// GetQuery returns the query of the builder.
-func (b *IPHotspotActiveBuilder) GetQuery() string {
-	return b.parent.GetQuery() + `active/`
+// GetPath returns the path of the builder.
+func (b *IPHotspotActiveBuilder) GetPath() string {
+	return b.path
 }
 
+// Print queries the hotspot active list based on the given queries.
 func (b *IPHotspotActiveBuilder) Print(queries model.PrintRequest) ([]model.HotspotActive, error) {
 	var (
 		results []model.HotspotActive
-		path    = b.GetQuery() + string(types.ActionMapPrint)
+		path    = b.path + string(types.ActionMapPrint)
 	)
 	reply, err := b.parent.GetClient().Call(queries.BuildQuery(path)...)
 	if err != nil {
@@ -39,9 +42,10 @@ func (b *IPHotspotActiveBuilder) Print(queries model.PrintRequest) ([]model.Hots
 	return results, nil
 }
 
+// Remove a hotspot active by the given id.
 func (b *IPHotspotActiveBuilder) Remove(id string) error {
 	var (
-		path = b.GetQuery() + string(types.ActionMapRemove)
+		path = b.path + string(types.ActionMapRemove)
 	)
 	_, err := b.parent.GetClient().Call(path, "=.id="+id)
 	if err != nil {

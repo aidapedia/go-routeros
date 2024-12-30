@@ -42,6 +42,6 @@ func (b *RouterOS) Call(sentence ...string) (*routeros.Reply, error) {
 }
 
 // GetQuery returns the query of the builder.
-func (b *RouterOS) GetQuery() string {
+func (b *RouterOS) GetPath() string {
 	return `/`
 }

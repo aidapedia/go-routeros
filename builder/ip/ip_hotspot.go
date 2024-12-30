@@ -16,13 +16,13 @@ func NewIPHotspotBuilder(ip *IPBuilder) *IPHotspotBuilder {
 	}
 }
 
-func (b *IPHotspotBuilder) GetQuery() string {
-	return b.parent.GetQuery() + `hotspot/`
+func (b *IPHotspotBuilder) GetPath() string {
+	return b.parent.GetPath() + `hotspot/`
 }
 
 func (b *IPHotspotBuilder) Print(queries model.PrintRequest) ([]model.Hotspot, error) {
 	var results []model.Hotspot
-	reply, err := b.parent.GetClient().Call(queries.BuildQuery(b.GetQuery() + `print`)...)
+	reply, err := b.parent.GetClient().Call(queries.BuildQuery(b.GetPath() + `print`)...)
 	if err != nil {
 		return results, err
 	}

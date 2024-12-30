@@ -18,13 +18,13 @@ func NewIPHotspotProfileBuilder(hotspot *IPHotspotBuilder) *IPHotspotProfileBuil
 }
 
 // GetQuery returns the query of the builder.
-func (b *IPHotspotProfileBuilder) GetQuery() string {
-	return b.parent.GetQuery() + `profile/`
+func (b *IPHotspotProfileBuilder) GetPath() string {
+	return b.parent.GetPath() + `profile/`
 }
 
 func (b *IPHotspotProfileBuilder) Print(queries model.PrintRequest) ([]model.HotspotProfile, error) {
 	var results []model.HotspotProfile
-	reply, err := b.parent.GetClient().Call(queries.BuildQuery(b.GetQuery() + `print`)...)
+	reply, err := b.parent.GetClient().Call(queries.BuildQuery(b.GetPath() + `print`)...)
 	if err != nil {
 		return results, err
 	}
