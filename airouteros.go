@@ -1,4 +1,4 @@
-package routeros
+package airouteros
 
 import (
 	"github.com/go-routeros/routeros/v3"
