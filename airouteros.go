@@ -6,32 +6,32 @@ import (
 
 type RouterOS struct {
 	client *routeros.Client
-	option *Option
+	option *Options
 }
 
-func NewRouterOS(address, username, password string) *RouterOS {
+func NewRouterOS(opt *Options) *RouterOS {
 	return &RouterOS{
-		option: NewOption(address, username, password),
+		option: opt,
 	}
 }
 
 // Connect connects to the router.
 func (r *RouterOS) Connect() error {
 	var err error
-	if r.option.GetTimeout() > 0 {
-		r.client, err = routeros.DialTimeout(r.option.GetAddress(), r.option.GetUsername(), r.option.GetPassword(), r.option.GetTimeout())
+	if r.option.Timeout > 0 {
+		r.client, err = routeros.DialTimeout(r.option.Address, r.option.Username, r.option.Password, r.option.Timeout)
 		return err
 	}
-	r.client, err = routeros.Dial(r.option.GetAddress(), r.option.GetUsername(), r.option.GetPassword())
+	r.client, err = routeros.Dial(r.option.Address, r.option.Username, r.option.Password)
 	return err
 }
 
-// Close closes the connection to the router.
+// Close the connection to the router.
 func (r *RouterOS) Close() {
 	r.client.Close()
 }
 
-// Close closes the connection to the router.
+// Async starts asynchronous mode and returns immediately..
 func (r *RouterOS) Async() {
 	r.client.Async()
 }
