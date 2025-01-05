@@ -1,5 +1,11 @@
 package types
 
+type contextKey string
+
+const (
+	ContextReconnect contextKey = "reconnect"
+)
+
 type ActionMap string
 
 const (

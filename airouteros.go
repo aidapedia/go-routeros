@@ -4,6 +4,7 @@ import (
 	"context"
 	"fmt"
 
+	"github.com/aidapedia/airouteros/types"
 	"github.com/go-routeros/routeros/v3"
 )
 
@@ -66,7 +67,25 @@ func (r *RouterOS) CallContext(ctx context.Context, sentence ...string) (*router
 	if !r.isConnected {
 		return nil, fmt.Errorf("router is not connected")
 	}
-	return r.client.RunContext(ctx, sentence...)
+	re, err := r.client.RunContext(ctx, sentence...)
+	if err != nil {
+		if err.Error() == "EOF" {
+			var reconnect bool
+			if ctx.Value(types.ContextReconnect) != nil {
+				reconnect = ctx.Value(types.ContextReconnect).(bool)
+			}
+			if !reconnect && r.option.AutoReconnect {
+				ctx = context.WithValue(ctx, types.ContextReconnect, true)
+				if err := r.Connect(); err != nil {
+					return nil, err
+				}
+				return r.CallContext(ctx, sentence...)
+			}
+			r.isConnected = false
+		}
+		return nil, err
+	}
+	return re, nil
 }
 
 // GetQuery returns the query of the builder.
