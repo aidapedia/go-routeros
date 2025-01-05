@@ -1,6 +1,8 @@
 package airouteros
 
 import (
+	"context"
+
 	"github.com/go-routeros/routeros/v3"
 )
 
@@ -37,8 +39,8 @@ func (r *RouterOS) Async() {
 }
 
 // Run runs a sentence on the router.
-func (b *RouterOS) Call(sentence ...string) (*routeros.Reply, error) {
-	return b.client.Run(sentence...)
+func (b *RouterOS) CallContext(ctx context.Context, sentence ...string) (*routeros.Reply, error) {
+	return b.client.RunContext(ctx, sentence...)
 }
 
 // GetQuery returns the query of the builder.

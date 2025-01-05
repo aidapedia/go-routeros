@@ -1,6 +1,8 @@
 package ip
 
 import (
+	"context"
+
 	routeros "github.com/aidapedia/airouteros"
 	"github.com/aidapedia/airouteros/model"
 )
@@ -20,9 +22,9 @@ func (b *IPHotspotBuilder) GetPath() string {
 	return b.parent.GetPath() + `hotspot/`
 }
 
-func (b *IPHotspotBuilder) Print(queries model.PrintRequest) ([]model.Hotspot, error) {
+func (b *IPHotspotBuilder) Print(ctx context.Context, queries model.PrintRequest) ([]model.Hotspot, error) {
 	var results []model.Hotspot
-	reply, err := b.parent.GetClient().Call(queries.BuildQuery(b.GetPath() + `print`)...)
+	reply, err := b.parent.GetClient().CallContext(ctx, queries.BuildQuery(b.GetPath()+`print`)...)
 	if err != nil {
 		return results, err
 	}

@@ -1,6 +1,7 @@
 package main
 
 import (
+	"context"
 	"fmt"
 	"log"
 
@@ -10,18 +11,19 @@ import (
 )
 
 func main() {
-	routerBuilder := routeros.NewRouterOS("127.0.0.1:8728", "", "")
+	routerBuilder := routeros.NewRouterOS(&routeros.Options{})
 	err := routerBuilder.Connect()
 	if err != nil {
 		log.Fatal(err)
 	}
+	defer routerBuilder.Close()
 
 	ip := ipBuilder.NewIPBuilder(routerBuilder)
 	hotspot := ipBuilder.NewIPHotspotBuilder(ip)
 	active := ipBuilder.NewIPHotspotUserProfileBuilder(hotspot)
 
 	// Example of using Print
-	hotspotRes, err := hotspot.Print(model.PrintRequest{})
+	hotspotRes, err := hotspot.Print(context.Background(), model.PrintRequest{})
 	if err != nil {
 		log.Fatal(err)
 	}
@@ -30,21 +32,20 @@ func main() {
 	}
 
 	// Example of using Print
-	activeRes, err := active.Print(model.PrintRequest{
+	activeRes, err := active.Print(context.Background(), model.PrintRequest{
 		Where: []model.Where{
-			{
-				Field:    "address",
-				Value:    "10.10.10.53",
-				Operator: model.OperatorEqual,
-			},
+			// {
+			// 	Field:    "address",
+			// 	Value:    "10.10.10.53",
+			// 	Operator: model.OperatorEqual,
+			// },
 		},
 	})
+	if err != nil {
+		fmt.Println(err)
+		return
+	}
 	for _, a := range activeRes {
 		fmt.Println(a)
-		test := a.ToMap()
-		fmt.Println(test)
 	}
-	fmt.Println(err)
-
-	routerBuilder.Close()
 }

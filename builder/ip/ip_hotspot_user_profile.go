@@ -1,6 +1,8 @@
 package ip
 
 import (
+	"context"
+
 	"github.com/aidapedia/airouteros/model"
 	"github.com/aidapedia/airouteros/types"
 	"github.com/aidapedia/airouteros/util"
@@ -27,12 +29,12 @@ func (b *IPHotspotUserProfileBuilder) GetPath() string {
 }
 
 // Print queries the hotspot user profile list based on the given queries.
-func (b *IPHotspotUserProfileBuilder) Print(queries model.PrintRequest) ([]model.HotspotUserProfile, error) {
+func (b *IPHotspotUserProfileBuilder) Print(ctx context.Context, queries model.PrintRequest) ([]model.HotspotUserProfile, error) {
 	var (
 		results []model.HotspotUserProfile
 		path    = b.path + string(types.ActionMapPrint)
 	)
-	reply, err := b.parent.GetClient().Call(queries.BuildQuery(path)...)
+	reply, err := b.parent.GetClient().CallContext(ctx, queries.BuildQuery(path)...)
 	if err != nil {
 		return results, err
 	}
@@ -44,11 +46,11 @@ func (b *IPHotspotUserProfileBuilder) Print(queries model.PrintRequest) ([]model
 }
 
 // Add a new hotspot user profile.
-func (b *IPHotspotUserProfileBuilder) Add(request model.HotspotUserProfile) error {
+func (b *IPHotspotUserProfileBuilder) Add(ctx context.Context, request model.HotspotUserProfile) error {
 	var (
 		path = b.path + string(types.ActionMapAdd)
 	)
-	_, err := b.parent.GetClient().Call(util.ToQuery(path, request.ToMap(types.ActionMapAdd))...)
+	_, err := b.parent.GetClient().CallContext(ctx, util.ToQuery(path, request.ToMap(types.ActionMapAdd))...)
 	if err != nil {
 		return err
 	}
@@ -56,11 +58,11 @@ func (b *IPHotspotUserProfileBuilder) Add(request model.HotspotUserProfile) erro
 }
 
 // Set the hotspot user profile.
-func (b *IPHotspotUserProfileBuilder) Set(request model.HotspotUserProfile) error {
+func (b *IPHotspotUserProfileBuilder) Set(ctx context.Context, request model.HotspotUserProfile) error {
 	var (
 		path = b.path + string(types.ActionMapSet)
 	)
-	_, err := b.parent.GetClient().Call(util.ToQuery(path, request.ToMap(types.ActionMapSet))...)
+	_, err := b.parent.GetClient().CallContext(ctx, util.ToQuery(path, request.ToMap(types.ActionMapSet))...)
 	if err != nil {
 		return err
 	}
@@ -68,11 +70,11 @@ func (b *IPHotspotUserProfileBuilder) Set(request model.HotspotUserProfile) erro
 }
 
 // Remove the hotspot user profile based on the given id.
-func (b *IPHotspotUserProfileBuilder) Remove(id string) error {
+func (b *IPHotspotUserProfileBuilder) Remove(ctx context.Context, id string) error {
 	var (
 		path = b.path + string(types.ActionMapRemove)
 	)
-	_, err := b.parent.GetClient().Call(path, "=.id="+id)
+	_, err := b.parent.GetClient().CallContext(ctx, path, "=.id="+id)
 	if err != nil {
 		return err
 	}

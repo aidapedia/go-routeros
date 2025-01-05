@@ -1,6 +1,8 @@
 package ip
 
 import (
+	"context"
+
 	"github.com/aidapedia/airouteros/model"
 	"github.com/aidapedia/airouteros/types"
 )
@@ -26,12 +28,12 @@ func (b *IPHotspotHostBuilder) GetPath() string {
 }
 
 // Print queries the hotspot host list based on the given queries.
-func (b *IPHotspotHostBuilder) Print(queries model.PrintRequest) ([]model.HotspotHost, error) {
+func (b *IPHotspotHostBuilder) Print(ctx context.Context, queries model.PrintRequest) ([]model.HotspotHost, error) {
 	var (
 		result []model.HotspotHost
 		path   = b.path + string(types.ActionMapPrint)
 	)
-	reply, err := b.parent.GetClient().Call(queries.BuildQuery(path)...)
+	reply, err := b.parent.GetClient().CallContext(ctx, queries.BuildQuery(path)...)
 	if err != nil {
 		return result, err
 	}
@@ -42,11 +44,11 @@ func (b *IPHotspotHostBuilder) Print(queries model.PrintRequest) ([]model.Hotspo
 }
 
 // Remove a hotspot host by the given id.
-func (b *IPHotspotHostBuilder) Remove(id string) error {
+func (b *IPHotspotHostBuilder) Remove(ctx context.Context, id string) error {
 	var (
 		path = b.path + string(types.ActionMapRemove)
 	)
-	_, err := b.parent.GetClient().Call(path, "=.id="+id)
+	_, err := b.parent.GetClient().CallContext(ctx, path, "=.id="+id)
 	if err != nil {
 		return err
 	}
