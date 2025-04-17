@@ -5,9 +5,9 @@ import (
 	"fmt"
 	"log"
 
-	routeros "github.com/aidapedia/airouteros"
-	ipBuilder "github.com/aidapedia/airouteros/builder/ip"
-	"github.com/aidapedia/airouteros/model"
+	routeros "github.com/aidapedia/go-routeros"
+	ipBuilder "github.com/aidapedia/go-routeros/builder/ip"
+	"github.com/aidapedia/go-routeros/model"
 )
 
 func main() {

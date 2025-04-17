@@ -4,7 +4,7 @@ import (
 	"context"
 	"fmt"
 
-	"github.com/aidapedia/airouteros/types"
+	"github.com/aidapedia/go-routeros/types"
 	"github.com/go-routeros/routeros/v3"
 )
 

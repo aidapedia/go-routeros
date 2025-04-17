@@ -1,4 +1,4 @@
-module github.com/aidapedia/airouteros
+module github.com/aidapedia/go-routeros
 
 go 1.21.9
 

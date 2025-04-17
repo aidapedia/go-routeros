@@ -3,8 +3,8 @@ package ip
 import (
 	"context"
 
-	routeros "github.com/aidapedia/airouteros"
-	"github.com/aidapedia/airouteros/model"
+	routeros "github.com/aidapedia/go-routeros"
+	"github.com/aidapedia/go-routeros/model"
 )
 
 type IPHotspotBuilder struct {

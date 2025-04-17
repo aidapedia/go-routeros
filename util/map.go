@@ -4,7 +4,7 @@ import (
 	"strconv"
 	"strings"
 
-	"github.com/aidapedia/airouteros/types"
+	"github.com/aidapedia/go-routeros/types"
 )
 
 // SetTimeDuration sets the time duration value to the map.

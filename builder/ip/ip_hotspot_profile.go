@@ -3,7 +3,7 @@ package ip
 import (
 	"context"
 
-	"github.com/aidapedia/airouteros/model"
+	"github.com/aidapedia/go-routeros/model"
 )
 
 // List of logged-in HotSpot users

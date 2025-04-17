@@ -1,7 +1,7 @@
 package ip
 
 import (
-	routeros "github.com/aidapedia/airouteros"
+	routeros "github.com/aidapedia/go-routeros"
 )
 
 type IPBuilder struct {

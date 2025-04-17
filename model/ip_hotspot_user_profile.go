@@ -3,8 +3,8 @@ package model
 import (
 	"strconv"
 
-	"github.com/aidapedia/airouteros/types"
-	"github.com/aidapedia/airouteros/util"
+	"github.com/aidapedia/go-routeros/types"
+	"github.com/aidapedia/go-routeros/util"
 )
 
 // HotspotUserProfile represents a request to hotspot user profile.
