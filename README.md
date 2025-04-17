@@ -11,4 +11,4 @@ We have a lot of things to provide all API on this SDK. Currently, I work by my 
 # Support
 If you love this respository, don't forge to support me.
 
-[<img style="width: 200px;" src="https://github.com/user-attachments/assets/9b80104f-ee5b-4a13-8030-ef9a87ed9836">](https://buymeacoffee.com/aidapedia)
+[<img style="width: 200px;" src="https://i.ibb.co.com/mCsbv8NQ/378162407-9b80104f-ee5b-4a13-8030-ef9a87ed9836.png">](https://buymeacoffee.com/aidapedia)
