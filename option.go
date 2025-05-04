@@ -1,4 +1,4 @@
-package airouteros
+package routeros
 
 import "time"
 

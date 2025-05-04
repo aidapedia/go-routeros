@@ -6,29 +6,26 @@ import (
 	"log"
 
 	routeros "github.com/aidapedia/go-routeros"
-	ipBuilder "github.com/aidapedia/go-routeros/builder/ip"
+	"github.com/aidapedia/go-routeros/driver"
 	"github.com/aidapedia/go-routeros/model"
+	"github.com/aidapedia/go-routeros/module"
 )
 
 func main() {
-	routerBuilder := routeros.NewRouterOS(&routeros.Options{})
+	routerBuilder := routeros.NewRouterOS(&routeros.Options{
+		Address:  "192.168.1.3:8728",
+		Username: "",
+		Password: "",
+	})
 	err := routerBuilder.Connect()
 	if err != nil {
 		log.Fatal(err)
 	}
 	defer routerBuilder.Close()
 
-	ip := ipBuilder.NewIPBuilder(routerBuilder)
-	hotspot := ipBuilder.NewIPHotspotBuilder(ip)
-	active := ipBuilder.NewIPHotspotUserProfileBuilder(hotspot)
-
-	// Example of using Print
-	hotspotRes, err := hotspot.Print(context.Background(), model.PrintRequest{})
+	active, err := driver.New(routerBuilder, module.HotspotModule)
 	if err != nil {
 		log.Fatal(err)
-	}
-	for _, a := range hotspotRes {
-		fmt.Println(a)
 	}
 
 	// Example of using Print

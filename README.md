@@ -1,6 +1,44 @@
 # About
 SDK that contain implementation of Router OS. This made to wrap [router-os](https://github.com/go-routeros/routeros) into structure that help developer to know the data returned.
 
+# Example
+
+```
+    routerBuilder := routeros.NewRouterOS(&routeros.Options{
+		Address:  "<your ip>:8728",
+		Username: "<your user-name>",
+		Password: "<your password>",
+	})
+	err := routerBuilder.Connect()
+	if err != nil {
+		log.Fatal(err)
+	}
+	defer routerBuilder.Close()
+
+	active, err := driver.New(routerBuilder, module.HotspotModule)
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	// Example of using Print
+	activeRes, err := active.Print(context.Background(), model.PrintRequest{
+		Where: []model.Where{
+			{
+			 	Field:    "address",
+			 	Value:    "10.10.10.53",
+			 	Operator: model.OperatorEqual,
+			},
+		},
+	})
+	if err != nil {
+		log.Fatal(err)
+	}
+	for _, a := range activeRes {
+		fmt.Println(a)
+	}
+```
+
+
 # Roadmap
 We have a lot of things to provide all API on this SDK. Currently, I work by my priority like this.
 
